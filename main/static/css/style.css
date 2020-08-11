@@ -1,0 +1,12 @@
+ul
+{
+    column-count: 3;
+}
+span.red {
+    background-color: #ff4545;
+    padding: 3px;
+}
+span.yellow{
+    background-color: #ffff00;
+    padding: 3px;
+}

@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>455 Soldiers</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}"> 
+<script type="text/javascript">
+$( function() {
+        $("#tabs").tabs({
+            activate: function( event, ui ) {
+                console.warn(this,event,ui)
+                $(".accordion",ui.newPanel).accordion("refresh");
+            }
+        })
+    });
+    $( function() {
+        $( ".accordion" ).accordion();
+    } );
+    $(".accordion",ui.newPanel).accordion("refresh");
+    </script>
+</head>
+<body>
+
+<div id="tabs">
+    <ul>
+        <li><a href="#Alerts">Alerts / Dashboards</a></li>
+        <li><a href="#MyData">View My Data</a></li>
+        <li><a href="#UpdateData">Update My Data</a></li>
+        <li><a href="#Documents">Documents</a></li>
+        <li><a href="#Account">Account / Administrative</a></li>
+    </ul>
+    <div id="Alerts">
+        <a href="/logout">Log Out</a>
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{message}}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% for flag in list_of_flags %}
+            {% if flag.alert_or_warning == 'alert' %}
+                <p><strong>{{flag.user.last_name}}, {{flag.user.first_name}}:</strong> <span class="red">{% if flag.attribute_type.display_name %}{{flag.attribute_type.display_name}}{% else %}{{flag.name}}{% endif %}: {{flag.value}}</span></p>
+            {% else %}
+                <p><strong>{{flag.user.last_name}}, {{flag.user.first_name}}:</strong> <span class="yellow">{% if flag.attribute_type.display_name %}{{flag.attribute_type.display_name}}{% else %}{{flag.name}}{% endif %}: {{flag.value}}</span></p>
+            {% endif %}
+        {% endfor %}
+        <script>(function(t,e,s,n){var o,a,c;t.SMCX=t.SMCX||[],e.getElementById(n)||(o=e.getElementsByTagName(s),a=o[o.length-1],c=e.createElement(s),c.type="text/javascript",c.async=!0,c.id=n,c.src="https://widget.surveymonkey.com/collect/website/js/tRaiETqnLgj758hTBazgd2kJyLAVQPbFwEiMMtTos_2BEfSddIjQFq7KSmuC_2FrThJ9.js",a.parentNode.insertBefore(c,a))})(window,document,"script","smcx-sdk");</script><a style="font: 12px Helvetica, sans-serif; color: #999; text-decoration: none;" href=www.surveymonkey.com> Create your own user feedback survey </a>
+    </div>
+<div id="UpdateData">
+    <a href="/logout">Log Out</a>
+    <h1>Add user information</h1>
+    <form action="/add_user_info" method="POST">
+        {% csrf_token %}
+        <label for="location">Where are you from?</label>
+        <input type="text" name="location" id="location"><br>
+        <label for="phone_number">Phone Number</label>
+        <input type="text" name="phone_number" id="phone_number"><br>
+        <label for="address">Street Address</label>
+        <input type="text" name="address" id="address"><br>
+        <label for="address">City</label>
+        <input type="text" name="city" id="city"><br>
+        <label for="state">State</label>
+        <select name="state" id="state">
+            <option value=""></option>
+            <option value="AL">Alabama</option>
+            <option value="AK">Alaska</option>
+            <option value="AZ">Arizona</option>
+            <option value="AR">Arkansas</option>
+            <option value="CA">California</option>
+            <option value="CO">Colorado</option>
+            <option value="CT">Connecticut</option>
+            <option value="DE">Delaware</option>
+            <option value="DC">District Of Columbia</option>
+            <option value="FL">Florida</option>
+            <option value="GA">Georgia</option>
+            <option value="HI">Hawaii</option>
+            <option value="ID">Idaho</option>
+            <option value="IL">Illinois</option>
+            <option value="IN">Indiana</option>
+            <option value="IA">Iowa</option>
+            <option value="KS">Kansas</option>
+            <option value="KY">Kentucky</option>
+            <option value="LA">Louisiana</option>
+            <option value="ME">Maine</option>
+            <option value="MD">Maryland</option>
+            <option value="MA">Massachusetts</option>
+            <option value="MI">Michigan</option>
+            <option value="MN">Minnesota</option>
+            <option value="MS">Mississippi</option>
+            <option value="MO">Missouri</option>
+            <option value="MT">Montana</option>
+            <option value="NE">Nebraska</option>
+            <option value="NV">Nevada</option>
+            <option value="NH">New Hampshire</option>
+            <option value="NJ">New Jersey</option>
+            <option value="NM">New Mexico</option>
+            <option value="NY">New York</option>
+            <option value="NC">North Carolina</option>
+            <option value="ND">North Dakota</option>
+            <option value="OH">Ohio</option>
+            <option value="OK">Oklahoma</option>
+            <option value="OR">Oregon</option>
+            <option value="PA">Pennsylvania</option>
+            <option value="RI">Rhode Island</option>
+            <option value="SC">South Carolina</option>
+            <option value="SD">South Dakota</option>
+            <option value="TN">Tennessee</option>
+            <option value="TX">Texas</option>
+            <option value="UT">Utah</option>
+            <option value="VT">Vermont</option>
+            <option value="VA">Virginia</option>
+            <option value="WA">Washington</option>
+            <option value="WV">West Virginia</option>
+            <option value="WI">Wisconsin</option>
+            <option value="WY">Wyoming</option>
+        </select>
+        <label for="zipcode">Zip Code</label>
+        <input type="text" name="zipcode" id="zipcode"><br>
+        <label for="civilian_email">Civilian email</label>
+        <input type="text" name="civilian_email" id="civilian_email"><br>
+        <label for="unit_origin">Unit you came from</label>
+        <input type="text" name="unit_origin" id="unit_origin"><br>
+        <label for="unit_destination">Unit you're transferring to</label>
+        <input type="text" name="unit_destination" id="unit_destination"><br>
+        <label for="plans_after">Plans for Getting out</label>
+        <input type="text" name="plans_after"><br>
+        <label for="employer">Employer</label>
+        <input type="text" name="employer" id="employer"><br>
+        <label for="military_schools">Military Schools you'd like to attend</label>
+        <input type="text" name="military_schools" id="military_schools"><br>
+        <label for="civilian_school">Current Civilian School</label>
+        <input type="text" name="civilian_school" id="civilian_school"><br>
+        <label for="credits">Number of Credits</label>
+        <input type="number" name="credits" id="credits"><br>
+        <label for="major">Major</label>
+        <input type="text" name="major" id="major"><br>
+        <button>Submit</button>
+    </form>
+</div>
+<div id = 'Account'>
+    <a href="/logout">Log Out</a>
+    {% if messages %}
+    {% for message in messages %}
+        <div>
+            <strong>{{message|safe}}</strong>
+        </div>
+    {% endfor %}
+    {% endif %}
+    {% if this_soldier.leadership_type == 'admin' %}
+            <form action="/csv/upload" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label for="file1"> Upload a file</label>
+                    <input type="file" id="file1" name="file">
+                    <small>Only accepts CSV files</small>
+                    <button type="submit">Upload</button>
+            </form>
+            <span>Personnel columns must be ordered:</span>
+                    <ol>
+                        <li>Last Name</li>
+                        <li>First Name</li>
+                        <li>Middle Initial</li>
+                        <li>Rank</li>
+                        <li>Military Email</li>
+                        <li>Leadership Type</li>
+                        <li>Platoon</li>
+                        <li>Squad</li>
+                        <li>Team</li>
+                    </ol>
+            <section>
+                <form action="/csv/attribute/upload" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <label for="file1"> Upload attributes file</label>
+                        <input type="file" id="file1" name="file">
+                        <small>Only accepts CSV files</small>
+                        <button type="submit">Upload</button>
+                </form>
+                <span>Attribute columns must be ordered:</span>
+                <ul>
+                    <li>First column Military Email</li>
+                    <li>All other columns are the names of attributes</li>
+                </ul>
+            </section>
+        <section>
+            <h2>Deactivate User:</h2>
+            <form action="/deactivate_user" method="post">
+                {% csrf_token %}
+                <label for="military_email">Military Email:</label>
+                <select name="military_email" id="military_email">
+                    {% for soldier in all_soldiers %}
+                        {% if soldier.active == True %}
+                            <option value="{{soldier.id}}">{{soldier.military_email}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <br>
+                <label for="deactivate">Deactivate?</label>
+                <select name="deactivate" id="deactivate">
+                    <option value="False">Yes</option>
+                    <option value="True">No</option>
+                </select>
+                <br>
+                <button>Deactivate</button>
+            </form>
+        </section>
+        <section>
+            <h2>Reactivate User:</h2>
+            <form action="/reactivate_user" method="post">
+                {% csrf_token %}
+                <label for="military_email">Military Email:</label>
+                <select name="military_email" id="military_email">
+                    {% for soldier in all_soldiers %}
+                        {% if soldier.active == False %}
+                            <option value="{{soldier.id}}">{{soldier.military_email}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <br>
+                <label for="reactivate">Reactivate?</label>
+                <select name="reactivate" id="reactivate">
+                    <option value="True">Yes</option>
+                    <option value="False">No</option>
+                </select>
+                <br>
+                <button>Reactivate</button>
+            </form>
+        </section>
+        <section>
+            <h2>Add a new user:</h2>
+            <form action="/add_new_user" method="post">
+                {% csrf_token %}
+                <label for="last_name">Last Name:</label>
+                <input type="text" name="last_name" id="last_name">
+                <br>
+                <label for="first_name">First Name:</label>
+                <input type="text" name="first_name" id="first_name">
+                <br>
+                <label for="middle">Middle Initial:</label>
+                <input type="text" name="middle" id="middle">
+                <br>
+                <label for="rank">Rank:</label>
+                <input type="text" name="rank" id="rank">
+                <br>
+                <label for="military_email">Military Email:</label>
+                <input type="email" name="military_email" id="military_email">
+                <br>
+                <label for="password">Initial Password:</label>
+                <input type="password" name="password" id="password">
+                <br>
+                <label for="confirm_pw">Password Confirmation:</label>
+                <input type="password" name="confirm_pw" id="confirm_pw">
+                <br>
+                <label for="leadership">Leadership:</label>
+                <select name="leadership" id="leadership">
+                    <option value="admin">Administrator</option>
+                    <option value="platoon">Platoon</option>
+                    <option value="squad">Squad</option>
+                    <option value="team">Team</option>
+                    <option value="none">None</option>
+                </select>
+                <br>
+                <label for="platoon">Platoon:</label>
+                <input type="text" name="platoon" id="platoon">
+                <br>
+                <label for="squad">Squad:</label>
+                <input type="text" name="squad" id="squad">
+                <br>
+                <label for="team">Team:</label>
+                <input type="text" name="team" id="team">
+                <br>
+                <label for="active">Active:</label>
+                <select name="active" id="active">
+                    <option value="True">Yes</option>
+                    <option value="False">No</option>
+                </select>
+                <br>
+                <button>Add User</button>
+            </form>
+        </section>
+        <section>
+            <h2>Add Attributes To User:</h2>
+            <form action="/add_attributes" method="post">
+                {% csrf_token %}
+                <label for="military_email">Military Email:</label>
+                <select name="military_email" id="military_email">
+                    {% for soldier in all_soldiers %}
+                        <option value="{{soldier.id}}">{{soldier.military_email}}</option>
+                    {% endfor %}
+                </select>
+                <br>
+                <label for="psqi">PSQI:</label>
+                <input type="text" name="psqi" id="psqi">
+                <br>
+                <label for="pasi">PASI:</label>
+                <input type="text" name="pasi" id="pasi">
+                <br>
+                <label for="additional_asi">Additional ASI:</label>
+                <input type="text" name="additional_asi" id="additional_asi">
+                <br>
+                <label for="military_education_description">Military Education Description:</label>
+                <input type="text" name="military_education_description" id="military_education_description">
+                <br>
+                <label for="dmosq">DMOSQ:</label>
+                <select name="dmosq" id="dmosq">
+                    <option value=""></option>
+                    <option value="Y">Yes</option>
+                    <option value="N">No</option>
+                </select>
+                <br>
+                <label for="ets">ETS or MRD Date:</label>
+                <input type="date" name="ets" id="ets">
+                <br>
+                <label for="apft_result">APFT Result</label>
+                <select name="apft_result" id="apft_result">
+                    <option value=""></option>
+                    <option value="P">Pass</option>
+                    <option value="F">Fail</option>
+                </select>
+                <br>
+                <label for="army_physical_readiness">Army Physical Readiness</label>
+                <input type="date" name="army_physical_readiness" id="army_physical_readiness">
+                <br>
+                <label for="latest_eval_date">Latest Evaluation Report Date:</label>
+                <input type="date" name="latest_eval_date" id="">
+                <br>
+                <label for="apft_fail">APFT Failure Flag:</label>
+                <select name="apft_fail" id="apft_fail">
+                    <option value=""></option>
+                    <option value="Y">Yes</option>
+                    <option value="N">No</option>
+                </select>
+                <br>
+                <label for="tpu_exceeds">TPU Exceeds Height/Weight (TAPDB-R)</label>
+                <select name="tpu_exceeds" id="tpu_exceeds">
+                    <option value=""></option>
+                    <option value="Y">Yes</option>
+                    <option value="N">No</option>
+                </select>
+                <br>
+                <label for="height_weight_indicator">Height/Weight Indicator (TAPDB-R)</label>
+                <input type="text" name="height_weight_indicator" id="height_weight_indicator">
+                <br>
+                <label for="height_weight_indicator_date">Height/Weight Indicator (Yr/Mo) (TAPDB-R)</label>
+                <input type="date" name="height_weight_indicator_date" id="height_weight_indicator_date">
+                <br>
+                <label for="evaluated_h_w">Evaluated for Height/Weight</label>
+                <select name="evaluated_h_w" id="evaluated_h_w">
+                    <option value=""></option>
+                    <option value="Y">Yes</option>
+                    <option value="N">No</option>
+                </select>
+                <br>
+                <button>Add Attributes</button>
+            </form>
+        </section>
+        <section>
+            <h2>Change Your Password:</h2>
+            <form action="/admin/user_change_password" method="post">
+                {% csrf_token %}
+                <label for="password">Current Password:</label>
+                <input type="password" name="password" id="password">
+                <label for="new_password">New Password:</label>
+                <input type="password" name="new_password" id="new_password"> <br>
+                <label for="confirm_pw">Confirm Password:</label>
+                <input type="password" name="confirm_pw" id="confirm_pw">
+                </select>
+                <br>
+                <button>Update Password</button>
+            </form>
+        </section>
+        <section>
+            <h2>Change User Password:</h2>
+            <form action="/admin/change_password" method="post">
+                {% csrf_token %}
+                <label for="military_email">Military Email:</label>
+                <select name="military_email" id="military_email">
+                    {% for soldier in all_soldiers %}
+                        <option value="{{soldier.id}}">{{soldier.military_email}}</option>
+                    {% endfor %}
+                </select>
+                <br>
+                <button>Update Password</button>
+            </form>
+        </section>
+        <section>
+            <h2>Add Attribute</h2>
+            <form action="/new_attribute" method="POST">
+                {% csrf_token %}
+                <label for="attribute_to_add">Attribute</label>
+                <input type="text" name="new_attribute_name" id="new_attribute_name">
+                <label for="value">Value</label>
+                <input type="text" name="value" id="value">
+                <select name="soldier_to_add_attribute_to" id="soldier_to_add_attribute_to">
+                    <option value="0">All Soldiers</option>
+                    {% for soldier in all_soldiers %}
+                        <option value="{{soldier.id}}">{{soldier.last_name}} {{soldier.first_name}}</option>
+                    {% endfor %}
+                </select>
+                <button>Add Selected Attribute</button>
+            </form>
+        </section>
+        <section>
+            <h2>Delete Attribute</h2>
+            <form action="/delete_attribute" method="POST">
+                {% csrf_token %}
+                <select name="attribute_to_delete" id="attribute_to_delete">
+                    {% for item in all_attributes %}
+                        <option value="{{item.id}}">{{item.type}}</option>
+                    {% endfor %}
+                </select>
+                <select name="soldier_to_remove_attribute_for" id="soldier_to_remove_attribute_for">
+                    <option value="0">All Soldiers</option>
+                    {% for soldier in all_soldiers %}
+                        <option value="{{soldier.id}}">{{soldier.last_name}} {{soldier.first_name}}</option>
+                    {% endfor %}
+                </select>
+                <button>Delete Selected Attribute</button>
+            </form>
+        </section>
+        <section>
+            <h2>Alert / Warning criteria</h2>
+                <form action="/add_alerts_warnings" method="POST">
+                    {% csrf_token %}
+                    <div class="accordion">
+                            {% for item in all_attributes %}
+                                <h3>{% if item.display_name %} {{item.display_name}} {% else %} {{item.type}}{% endif %} Alerts</h3>
+                                <div>
+                                    <select name="{{item.type}}" id="{{item.id}}">
+                                        <option value="no_alert" {% if item.alert_type == 'no_alert' %}selected{% endif %}>No Alert / Warning necessary</option>
+                                        <option value="Dateback" {% if item.alert_type == 'Dateback' %}selected{% endif %}>Date backward (Year ago this expires)</option>
+                                        <option value="Dateforward" {% if item.alert_type == 'Dateforward' %}selected{% endif %}>Date forward (Year from now this is important)</option>
+                                        <option value="fail" {% if item.alert_type == 'fail' %}selected{% endif %}>Pass/Fail</option>
+                                        <option value="yes_is_bad" {% if item.alert_type == 'yes_is_bad' %}selected{% endif %}>Yes / No with yes being bad</option>
+                                        <option value="no_is_bad" {% if item.alert_type == 'no_is_bad' %}selected{% endif %}>Yes / No with no being bad</option>
+                                    </select>
+                                </div>
+                            {% endfor %}
+                    </div>
+                    <button>Add selected Alerts and Warnings</button>
+                </form>
+            </section>
+            <section>
+                <h2>Change Display Name</h2>
+                <form action="/display_name" method="POST">
+                    {% csrf_token %}
+                    <select name="attribute" id="attribute">
+                        {% for item in all_attributes %}
+                            <option value="{{item.id}}">{{item.type}}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="display_name">Display Name:</label>
+                    <input type="text" name="display_name" id="display_name">
+                    <button>Update Name</button>
+                </form>
+            </section>
+    {% else %}
+        <section>
+            <h2>Change Your Password:</h2>
+            <form action="/admin/user_change_password" method="post">
+                {% csrf_token %}
+                <label for="password">Current Password:</label>
+                <input type="password" name="password" id="password">
+                <label for="new_password">New Password:</label>
+                <input type="password" name="new_password" id="new_password"> <br>
+                <label for="confirm_pw">Confirm Password:</label>
+                <input type="password" name="confirm_pw" id="confirm_pw">
+                </select>
+                <br>
+                <button>Update Password</button>
+            </form>
+        </section>
+    {% endif %}
+</div>
+<div id="Documents">
+    <a href="/logout">Log Out</a>
+    <a href="/static/documents/dd0093.pdf"><h3>DD 93</h3></a>
+    <p>Form to fill out your emergency data</p>
+    <a href="/static/documents/455th BA Schedule.pdf"><h3>BA Schedule</h3></a>
+    <p>Drill Schedule change 3</p>
+    <a href="/static/documents/CPT Nall Assumption of Command.pdf"><h3>Assumption of Command Memo</h3></a>
+    <p>So you know who I am for the IG Complaint.</p>
+    <a href="/static/documents/IDT Certification Memo.pdf"><h3>IDT Certification Memo</h3></a>
+    <p>Memo to help you get paid for your travel.</p>
+    <a href="/static/documents/Manning Diagram.xlsx"><h3>Manning Diagram</h3></a>
+    <p>So you can see who belongs to whom.</p>
+</div>
+<div id="MyData">
+    <a href="/logout">Log Out</a>
+        <div class="accordion">
+            {% if these_soldiers == this_soldier %}
+                <h3>{{these_soldiers.last_name}}, {{these_soldiers.first_name}} {{these_soldiers.middle_initial}}</h3>
+                <div>
+                    <ul>
+                        {% for item in these_soldiers.attributes.all %}
+                            {% if item.alert_or_warning == 'alert' %}
+                                <li>{{item.name}}: <span class="red">{{item.value}}</span></li>
+                            {% elif item.alert_or_warning == 'warning' %}
+                            <li>{{item.name}}: <span class="yellow">{{item.value}}</span></li>
+                            {% else %}
+                                <li>{{item.name}}: {{item.value}}</li>
+                            {% endif %}
+                        {% endfor %}
+                        {% for item in these_soldiers.additional_info.all %}
+                        {% if item.location %}
+                        <li>Location: {{item.location}}</li>
+                        {% endif %}
+                        {% if item.phone_number %}
+                            <li>Phone Number: {{item.phone_number}}</li>
+                        {% endif %}
+                        {% if item.address %}
+                            <li>Address: {{item.address}}</li>
+                        {% endif %}
+                        {% if item.city %}
+                            <li>City: {{item.city}}</li>
+                        {% endif %}
+                        {% if item.state %}
+                            <li>State: {{item.state}}</li>
+                        {% endif %}
+                        {% if item.zipcode %}
+                            <li>Zip Code: {{item.zipcode}}</li>
+                        {% endif %}
+                        {% if item.civilian_email %}
+                            <li>Civilian Email: {{item.civilian_email}}</li>
+                        {% endif %}
+                        {% if item.unit_origin %}
+                            <li>Unit of Origin: {{item.unit_origin}}</li>
+                        {% endif %}
+                        {% if item.unit_destination %}
+                            <li>Unit you plan on going to: {{item.unit_destination}}</li>
+                        {% endif %}
+                        {% if item.plans_after %}
+                            <li>Plans for getting out: {{item.plans_after}}</li>
+                        {% endif %}
+                        {% if item.military_schools %}
+                            <li>What military Schools you would like to attend: {{item.military_schools}}</li>
+                        {% endif %}
+                        {% if item.civilian_school %}
+                            <li>Civilian school you are attending: {{item.civilian_school}}</li>
+                        {% endif %}
+                        {% if item.num_credits %}
+                            <li>Number of Credits you have: {{item.num_credits}}</li>
+                        {% endif %}
+                        {% if item.major %}
+                            <li>Current Major: {{item.major}}</li>
+                        {% endif %}
+                        {% if item.employer %}
+                            <li>Employer: {{item.employer}}</li>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                {% for soldier in these_soldiers %}
+                    {% if soldier.active == True %}
+                        <h3>{{soldier.last_name}}, {{soldier.first_name}} {{soldier.middle_initial}}</h3>
+                        <div>
+                            <ul>
+                                {% for item in soldier.attributes.all %}
+                                    {% if item.alert_or_warning == 'alert' %}
+                                        <li>{% if item.attribute_type.display_name %}{{item.attribute_type.display_name}}:{% else %}{{item.name}}:{% endif %} <span class="red">{{item.value}}</span></li>
+                                    {% elif item.alert_or_warning == 'warning' %}
+                                    <li>{{item.name}}: <span class="yellow">{{item.value}}</span></li>
+                                    {% else %}
+                                    <li>{{item.name}}: {{item.value}}</li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% for item in soldier.additional_info.all %}
+                                    {% if item.location %}
+                                    <li>Location: {{item.location}}</li>
+                                    {% endif %}
+                                    {% if item.phone_number %}
+                                        <li>Phone Number: {{item.phone_number}}</li>
+                                    {% endif %}
+                                    {% if item.address %}
+                                        <li>Address: {{item.address}}</li>
+                                    {% endif %}
+                                    {% if item.city %}
+                                        <li>City: {{item.city}}</li>
+                                    {% endif %}
+                                    {% if item.state %}
+                                        <li>State: {{item.state}}</li>
+                                    {% endif %}
+                                    {% if item.zipcode %}
+                                        <li>Zip Code: {{item.zipcode}}</li>
+                                    {% endif %}
+                                    {% if item.civilian_email %}
+                                        <li>Civilian Email: {{item.civilian_email}}</li>
+                                    {% endif %}
+                                    {% if item.unit_origin %}
+                                        <li>Unit of Origin: {{item.unit_origin}}</li>
+                                    {% endif %}
+                                    {% if item.unit_destination %}
+                                        <li>Unit you plan on going to: {{item.unit_destination}}</li>
+                                    {% endif %}
+                                    {% if item.plans_after %}
+                                        <li>Plans for getting out: {{item.plans_after}}</li>
+                                    {% endif %}
+                                    {% if item.military_schools %}
+                                        <li>What military Schools you would like to attend: {{item.military_schools}}</li>
+                                    {% endif %}
+                                    {% if item.civilian_school %}
+                                        <li>Civilian school you are attending: {{item.civilian_school}}</li>
+                                    {% endif %}
+                                    {% if item.num_credits %}
+                                        <li>Number of Credits you have: {{item.num_credits}}</li>
+                                    {% endif %}
+                                    {% if item.major %}
+                                        <li>Current Major: {{item.major}}</li>
+                                    {% endif %}
+                                    {% if item.employer %}
+                                        <li>Employer: {{item.employer}}</li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                </div>
+            {% endif %}
+</div>
+
+</body>
+</html>

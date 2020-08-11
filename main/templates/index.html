@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Registration</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome!</h1>
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{message}}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </header>
+    <section>
+        <h2>Register:</h2>
+        <form action="/register" method="post">
+            {% csrf_token %}
+            <label for="last_name">Last Name:</label>
+            <input type="text" name="last_name" id="last_name">
+            <br>
+            <label for="first_name">First Name:</label>
+            <input type="text" name="first_name" id="first_name">
+            <br>
+            <label for="middle">Middle Initial:</label>
+            <input type="text" name="middle" id="middle">
+            <br>
+            <label for="rank">Rank:</label>
+            <input type="text" name="rank" id="rank">
+            <br>
+            <label for="military_email">Military Email:</label>
+            <input type="email" name="military_email" id="military_email">
+            <br>
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password">
+            <br>
+            <label for="confirm_pw">Password Confirmation:</label>
+            <input type="password" name="confirm_pw" id="confirm_pw">
+            <br>
+            <label for="leadership">Leadership:</label>
+            <select name="leadership" id="leadership">
+                <option value="admin">Administrator</option>
+                <option value="platoon">Platoon</option>
+                <option value="squad">Squad</option>
+                <option value="team">Team</option>
+                <option value="none">None</option>
+            </select>
+            <br>
+            <label for="platoon">Platoon:</label>
+            <input type="text" name="platoon" id="platoon">
+            <br>
+            <label for="squad">Squad:</label>
+            <input type="text" name="squad" id="squad">
+            <br>
+            <label for="team">Team:</label>
+            <input type="text" name="team" id="team">
+            <br>
+            <label for="active">Active:</label>
+            <select name="active" id="active">
+                <option value="True">Yes</option>
+                <option value="False">No</option>
+            </select>
+            <br>
+            <button>Register</button>
+        </form>
+    </section>
+    <section>
+        <div class="registerlogin">
+            <h3>Login</h3>
+            <form action="/login" method="POST">
+                {% csrf_token %}
+                <label for="military_email">Military Email</label>
+                <input type="email" name="military_email" id="military_email"><br>
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password">
+                <div class="messages">
+                    {% if messages %}
+                        <ul>
+                            {% for message in messages %}
+                                {% if 'login' in message.tags %}
+                                    <li>{{message}}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <button>Login</button>
+            </form>
+        </div>
+    </section>
+</body>
+</html>
